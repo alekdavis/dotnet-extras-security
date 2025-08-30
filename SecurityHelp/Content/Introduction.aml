@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="DotNetExtras.Security.Introduction" revisionNumber="1">
+  <developerConceptualDocument
+    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+    <introduction>
+      <!-- <autoOutline /> -->
+      <para>
+        The <legacyItalic>DotNetExtras.Security</legacyItalic> library implements most commonly used security operations. For the detailed description of the library API, code samples, and usage scenarios, see the <legacyItalic>API documentation</legacyItalic> section.
+      </para>
+    </introduction>
+
+    <section address="Overview">
+      <title>Overview</title>
+      <content>       
+        
+        <para>
+          The <legacyItalic>DotNetExtras.Security</legacyItalic> library groups the security classes and extension methods under the following namespaces:
+        </para>
+        <list class="bullet">
+          <listItem>
+            <para><codeInline>DotNetExtras.Security</codeInline>: Implements generic security operations.</para>
+            
+            <list class="bullet">
+              <listItem>
+                <para><codeInline>Crypto</codeInline>: Encrypts and decrypts strings using a symmetric (AES/Rijndael) algorithm and a random salt.</para>
+              </listItem>
+              <listItem>
+                <para><codeInline>Hash</codeInline>: Hashes strings using the secure SHA algorithms and a random salt; validates the hash value.</para>
+              </listItem>
+              <listItem>
+                <para><codeInline>Jwt</codeInline>: Generates and validates JSON Web Tokens (JWTs).</para>
+              </listItem>
+              <listItem>
+                <para><codeInline>Password</codeInline>: Generates random passwords with unambiguous characters.</para>
+              </listItem>
+            </list>
+            
+          </listItem>
+          <listItem>
+            <para><codeInline>DotNetExtras.Security.Json</codeInline>: Defines types and operations used for JSON serialization of sensitive properties.</para>
+            
+            <list class="bullet">
+              <listItem>
+                <para><codeInline>JsonExtensions</codeInline>: Implements extension methods for JSON serialization  of any objects with sensitive properties via the <codeInline>System.Text.Json</codeInline> (STJ).</para>
+              </listItem>
+              <listItem>
+                <para><codeInline>MaskAttribute</codeInline>: Defines an attribute that can be applied to the custom class properties to mask the property values during JSON serialization via <codeInline>System.Text.Json</codeInline> (STJ).</para>
+              </listItem>
+            </list>
+
+          </listItem>
+        </list>
+   
+        <para>
+          The following sections provide code examples and usage scenarios for the <legacyItalic>DotNetExtras.Security</legacyItalic> classes.
+        </para>
+      </content>
+      <sections>      
+              
+        <section address="Crypto">
+          <title>Crypto</title>
+          <content>
+            <para>
+              The <legacyItalic>Crypto</legacyItalic> class simplifies the symmetric key encryption and decryption operation. Before encrypting the plain text value, it generates a random salt that it adds in front of the plain text and includes the salt value in the cipher text. The cipher text value will be base64-encoded.
+            </para>
+          </content>
+          
+          <sections>
+            <section>
+              <content>
+                <code language="c#" title="Crypto examples">
+    <![CDATA[
+    using DotNetExtras.Security;
+    ...
+    string plainText = "Hello, World!";
+    string password = "never-hard-code-passwords!";
+
+    // Encrypt the plain text using the password to generate the symmetric key.
+    string encrypted = Crypto.Encrypt(plainText, password)
+
+    // Decrypt the cipher text using the same password to get the original plain text.
+    string decrypted = Crypto.Decrypt(encryptedText, password);
+
+    ]]>
+                </code>
+              </content>
+            </section>
+       
+          </sections>
+        </section>
+
+        <section address="Hash">
+          <title>Hash</title>
+          <content>
+            <para>
+              The <legacyItalic>Hash</legacyItalic> class generates a random salt and appends it in front of the plain text value before hashing it. The hashed value will be hex-encoded.
+            </para>
+          </content>
+          <sections>
+            <section>
+              <content>
+
+                <code language="c#" title="Hash examples">
+    <![CDATA[
+    using DotNetExtras.Security;
+    ...
+    string plainText = "Hello, World!";
+    HashType hashType = HashType.SHA256;
+
+    // Use either option to generate the hash value.
+    // string hashText = Hash.Generate(hashType, plainText);
+    // or
+    string hashText = plainText.ToHash(hashType)
+
+    // Given the hash value, validate the plain text.
+    bool valid = Hash.Validate(hashType, hashText, "Hello, World!")
+    ]]>
+                </code>
+
+              </content>
+            </section>
+          </sections>
+        </section>
+   
+        <section address="Jwt">
+          <title>Jwt</title>
+          <content>
+            <para>
+              The <legacyItalic>Jwt</legacyItalic> class generates and validates JSON Web Tokens (JWTs).
+            </para>
+          </content>
+          <sections>
+            <section>
+              <content>
+
+                <code language="c#" title="JWT examples">
+    <![CDATA[
+    using System.Security.Claims;
+    using DotNetExtras.Security;
+    ...
+    string secret = "never-hard-code-passwords!";
+    int    tokenExpirationSeconds = 3600; // 1 hour
+    string email = "joe.doe@sample.com";
+
+    Jwt jwt = new(secret, tokenExpirationSeconds);
+
+    string token = jwt.Generate(email);
+
+    ClaimsPrincipal principal = jwt.Validate(token);
+
+    Assert.NotNull(principal);
+    Assert.Equal(email, principal.FindFirst(ClaimTypes.Email)?.Value);
+    ]]>
+                </code>
+              </content>
+            </section>      
+            
+          </sections>
+        </section>    
+   
+        <section address="Password">
+          <title>Password</title>
+          <content>
+            <para>
+              The <legacyItalic>Password</legacyItalic> class generates random passwords without ambiguous characters (such as <codeInline>1</codeInline>, <codeInline>I</codeInline>, <codeInline>l</codeInline> or <codeInline>0</codeInline>, <codeInline>O</codeInline>). The password will contain at least one character from each of the following categories: lowercase letters, uppercase letters, digits, and special characters.
+            </para>
+          </content>
+          <sections>
+            <section>
+              <content>
+
+                <code language="c#" title="Hash examples">
+    <![CDATA[
+    using DotNetExtras.Security;
+    ...
+    // Generate a random password between 12 and 16 characters long.
+    string randomPassword = Password.Generate(12, 16);
+    ]]>
+                </code>
+
+              </content>
+            </section>
+          </sections>
+        </section>
+
+        <section address="JsonExtensions">
+          <title>JsonExtensions</title>
+          <content>
+            <para>
+              The <legacyItalic>JsonExtensions</legacyItalic> class offers extension methods for JSON serialization with omitted or masked property values.
+            </para>
+          </content>
+          <sections>
+            <section>
+              <content>
+
+                <code language="c#" title="JSON examples">
+    <![CDATA[
+    using DotNetExtras.Security.Json;
+    ...
+    User user = new()
+    {   
+        UserName = "joe.doe",
+        Password = "never-hard-code-passwords!",
+        Email = "joe.doe@sample.com",
+        PersonalData = new()
+        {
+          Ssn = "123-45-6789"
+        }
+    };
+
+    string? json;
+
+    // Serialize the user object to JSON, 
+    // replacing the Password property value with null.
+    json = user.ToJson("Password");
+
+    // Serialize the user object to JSON, 
+    // replacing the Password and PersonalData.Ssn property values with "###".
+    json = user.ToJson("###", "Password", "PersonalData.Ssn");
+
+    // Serialize the user object to JSON, 
+    // masking the Password and PersonalData.Ssn property values
+    // with the asterisk characters,
+    // but leaving the first and last 2 characters in plain text.
+    json = user.ToJson('*', 2, 2, "Password", "PersonalData.Ssn");
+    ]]>
+                </code>
+
+              </content>
+            </section>
+          </sections>
+        </section>
+        
+        <section address="MaskAttributes">
+          <title>MaskAttribute</title>
+          <content>
+            <para>
+              The <legacyItalic>MaskAttribute</legacyItalic> class can be applied to the class properties, so that the property values are automatically masked by the JSON serialization operation performed using <codeInline>System.Text.Json</codeInline> (STJ).
+            </para>
+          </content>
+          <sections>
+            <section>
+              <content>
+
+                <code language="c#" title="Property mask examples">
+    <![CDATA[
+    using DotNetExtras.Security.Json;
+    ...
+    // Value will be replaced with null.
+    [Mask()]
+    public string? Secret1 { get; set; }
+
+    // Value will be replaced with an empty string.
+    [Mask("")]
+    public string? Secret2 { get; set; }
+
+    // Value will be replaced with the literal string "***masked***".
+    [Mask("***masked***")]
+    public string? Secret3 { get; set; }
+
+    // All characters in the value will be replaced with asterisks
+    // except the first two and the last three which will remain in plain text.
+    [Mask('*', 2, 3)]
+    public string? Secret5 { get; set; }
+
+    // Value will be replaced with the hex-encoded SHA-256 hash.
+    [Mask(HashType.SHA256)]
+    public string? Secret4 { get; set; }
+    ]]>
+                </code>
+
+              </content>
+            </section>
+          </sections>
+        </section>      
+        
+      </sections>
+    </section>
+                
+    <section address="More">
+      <title>More</title>
+        <content>
+          <para>
+            For more examples of available functionality, see the 
+            <externalLink>
+              <linkText>unit test project</linkText>
+              <linkUri>https://github.com/alekdavis/dotnet-extras-security/tree/main/SecurityTests</linkUri>
+              <linkTarget>_blank</linkTarget>
+            </externalLink>.
+          </para>
+        </content>
+    </section>
+
+    <relatedTopics>
+      <externalLink>
+        <linkText>DotNetExtras.Security NuGet package</linkText>
+        <linkUri>https://www.nuget.org/packages/DotNetExtras.Security</linkUri>
+      </externalLink>
+      <externalLink>
+        <linkText>DotNetExtras.Security project repository</linkText>
+        <linkUri>https://github.com/alekdavis/dotnet-extras-security</linkUri>
+        <linkTarget>_blank</linkTarget>
+      </externalLink>
+    </relatedTopics>
+  </developerConceptualDocument>
+</topic>
