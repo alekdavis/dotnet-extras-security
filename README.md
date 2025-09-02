@@ -125,8 +125,8 @@ public class Demo
     public string? Secret3 { get; set; }
 
     // Value will be replaced with the asterisks
-    // and two first and last characters will be left in plain text.
-    [Mask('*', 2, 2)]
+    // and two first and one last characters will be left in plain text.
+    [Mask('*', 2, 1)]
     public string? Secret4 { get; set; }
 
     // Value will be replaced with the hex-encoded SHA-256 hash.
