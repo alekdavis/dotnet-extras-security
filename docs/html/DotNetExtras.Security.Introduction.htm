@@ -1,12 +1,12 @@
 ﻿<!DOCTYPE html ><html lang="en-US"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><link rel="shortcut icon" href="../icons/favicon.ico" /><link rel="stylesheet" href="../css/bulma.css" /><link rel="stylesheet" href="../css/font-awesome.min.css" /><link rel="stylesheet" href="../css/presentationStyle.css" /><link rel="stylesheet" href="../css/vs.min.css" /><script src="../scripts/jquery-3.5.1.min.js"></script><script src="../scripts/clipboard.min.js"></script><script src="../scripts/highlight.min.js"></script><script src="../scripts/presentationStyle.js"></script><title>Introduction</title><meta name="Title" content="Introduction" /><meta name="Help.Id" content="DotNetExtras.Security.Introduction" /><meta name="Help.ContentType" content="Concepts" /><meta name="guid" content="DotNetExtras.Security.Introduction" /><meta name="Description" content="The DotNetExtras.Security library implements most commonly used security operations. For the detailed description of the library API, code samples, and usage scenarios, see the API documentation section." /><meta name="tocFile" content="../toc/Root.xml" /></head><body><div class="fixedLayout"><div id="Header" class="fixedHeader"><div class="pageHeader level mb-0 py-2 px-4"><div id="TitleContainer" class="level-left"><div class="level-item"><img src="../icons/Help.png" /></div><div id="DocumentationTitle" class="level-item">DotNetExtras.Security Library Documentation</div></div><div id="LangFilterSearchContainer" class="level-right"><div class="level-item"><div class="dropdown is-hoverable"><div class="dropdown-trigger"><button class="button" aria-haspopup="true" aria-controls="dropdown-menu"><span id="CurrentLanguage"></span><span class="icon is-small"><i class="fa fa-angle-down" aria-hidden="true"></i></span></button></div><div class="dropdown-menu" role="menu"><div id="LanguageSelections" class="dropdown-content"><a class="dropdown-item languageFilterItem" data-languageId="cs">C#</a></div></div></div></div><div class="level-item"><form id="SearchForm" action="#" onsubmit="TransferToSearchPage(); return false;"><div class="field"><div class="control has-icons-left"><input id="SearchTerms" class="input" type="text" maxlength="200" placeholder="Search" /><span class="icon is-small is-left"><i class="fa fa-search"></i></span><button id="SearchButton" type="submit" class="is-hidden"></button></div></div></form></div></div></div></div><div class="fixedContent"><div id="HeaderPrelimContainer" class="level my-1 px-2"><div id="PreliminaryContainer" class="level-left"><div class="level-item"><span class="tag is-warning is-medium">This is preliminary documentation and is subject to change.</span></div></div></div><nav class="breadcrumb my-1 px-2 border-bottom" role="navigation"><ul id="TopicBreadcrumbs" /></nav><div id="ContentContainer" class="columns pl-5 pr-5 fixedContent"><div id="ShowHideTOCColumn" class="column is-hidden-tablet"><a id="ShowHideTOC">Show/Hide TOC</a></div><div id="TOCColumn" class="column is-hidden-mobile"><nav class="toc"><ul id="TableOfContents" class="toc-menu" /></nav></div><div id="Resizer" class="is-hidden"></div><div id="TopicContent" class="column content is-7"><h1>Introduction</h1><div><p>
-        The <em>DotNetExtras.Security</em> library implements most commonly used security operations. For the detailed description of the library API, code samples, and usage scenarios, see the <em>API documentation</em> section.
+        The <span class="code">DotNetExtras.Security</span> library implements most commonly used security operations. For the detailed description of the library API, code samples, and usage scenarios, see the <em>API documentation</em> section.
       </p></div><h2 id="Overview" class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Overview</h2><div id="IDBABSection"><p>
-          The <em>DotNetExtras.Security</em> library groups the security classes and extension methods under the following namespaces:
-        </p><ul><li><p><span class="code">DotNetExtras.Security</span>: Implements generic security operations.</p><ul><li><p><span class="code">Crypto</span>: Encrypts and decrypts strings using a symmetric (AES/Rijndael) algorithm and a random salt.</p></li><li><p><span class="code">Hash</span>: Hashes strings using the secure SHA algorithms and a random salt; validates the hash value.</p></li><li><p><span class="code">Jwt</span>: Generates and validates JSON Web Tokens (JWTs).</p></li><li><p><span class="code">Password</span>: Generates random passwords with unambiguous characters.</p></li></ul></li><li><p><span class="code">DotNetExtras.Security.Json</span>: Defines types and operations used for JSON serialization of sensitive properties.</p><ul><li><p><span class="code">JsonExtensions</span>: Implements extension methods for JSON serialization  of any objects with sensitive properties via the <span class="code">System.Text.Json</span> (STJ).</p></li><li><p><span class="code">MaskAttribute</span>: Defines an attribute that can be applied to the custom class properties to mask the property values during JSON serialization via <span class="code">System.Text.Json</span> (STJ).</p></li></ul></li></ul><p>
+          The <span class="code">DotNetExtras.Security</span> library groups the security classes and extension methods under the following namespaces:
+        </p><ul><li><p><span class="code">DotNetExtras.Security</span>: Implements generic security and cryptographic operations.</p><ul><li><p><span class="code">Crypto</span>: Encrypts and decrypts a string value using the symmetric key (AES/Rijndael) algorithm with a 256-bit key derived from the specified password and a random salt.</p></li><li><p><span class="code">Hash</span>: Hashes a string value using a secure SHA algorithm and a random salt; validates the generated hash value accounting for the random salt.</p></li><li><p><span class="code">Jwt</span>: Generates and validates a JSON Web Token (JWT).</p></li><li><p><span class="code">Password</span>: Generates a random password. The generated password will start with either a letter (lower or upper case) or a number. The password longer than four characters is guaranteed to include at least one of the following: lower-case letter, upper-case letter, number, special character. Every four character group will include characters from one of the four categories. The password will not contain letters, numbers and special characters that may appear ambiguous, such as <span class="code">1</span>, <span class="code">l</span>, or <span class="code">I</span>. The list special characters that may be included in the password, includes: <span class="code">*$-+?_&amp;=!%{}/[].,':;~()</span>.</p></li></ul></li><li><p><span class="code">DotNetExtras.Security.Json</span>: Defines types and operations used for JSON serialization of sensitive properties.</p><ul><li><p><span class="code">JsonExtensions</span>: Implements extension methods for JSON conversion of any objects with sensitive properties via the <span class="code">System.Text.Json</span> (STJ) serialization.</p></li><li><p><span class="code">MaskAttribute</span>: Defines an attribute that can be applied to the custom class properties to mask the property values during JSON conversion via the <span class="code">System.Text.Json</span> (STJ) serialization.</p></li></ul></li></ul><p>
           The following sections provide code examples and usage scenarios for the <em>DotNetExtras.Security</em> classes.
         </p><h4 id="Crypto" class="quickLinkHeader">Crypto</h4><p>
-              The <em>Crypto</em> class simplifies the symmetric key encryption and decryption operation. Before encrypting the plain text value, it generates a random salt that it adds in front of the plain text and includes the salt value in the cipher text. The cipher text value will be base64-encoded.
-            </p><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">Crypto examples</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-c#">using DotNetExtras.Security;
+              The <span class="code">Crypto</span> class simplifies the symmetric key encryption and decryption operation. Before encrypting the plain text value, it generates a random salt that it adds in front of the plain text and includes the salt value in the cipher text. The cipher text value will be base64-encoded.
+            </p><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">Encrypt and decrypt a string value</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-c#">using DotNetExtras.Security;
 ...
 string plainText = "Hello, World!";
 string password = "never-hard-code-passwords!";
@@ -16,26 +16,30 @@ string encrypted = Crypto.Encrypt(plainText, password)
 
 // Decrypt the cipher text using the same password to get the original plain text.
 string decrypted = Crypto.Decrypt(encryptedText, password);</code></pre></div></div><h4 id="Hash" class="quickLinkHeader">Hash</h4><p>
-              The <em>Hash</em> class generates a random salt and appends it in front of the plain text value before hashing it. The hashed value will be hex-encoded.
-            </p><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">Hash examples</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-c#">using DotNetExtras.Security;
+              The <span class="code">Hash</span> class generates a random salt and appends it in front of the plain text value before hashing it. The hashed value will be hex-encoded. The validation method will use the salt included in the hash value.
+            </p><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">Generate and validate a hash value</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-c#">using DotNetExtras.Security;
 ...
 string plainText = "Hello, World!";
 HashType hashType = HashType.SHA256;
 
 // Use either option to generate the hash value.
+// Option 1: Static class method (salt value must be explicitly passed in, if needed).
 // string hashText = Hash.Generate(hashType, plainText);
-// or
+// Option 2: Extension method (salt value will be generated automatically, if needed).
 string hashText = plainText.ToHash(hashType)
 
-// Given the hash value, validate the plain text.
+// Given the hash value, validate the plain text 
+// (the method will account for the random salt assuming that it is appended to the hash).
 bool valid = Hash.Validate(hashType, hashText, "Hello, World!")</code></pre></div></div><h4 id="Jwt" class="quickLinkHeader">Jwt</h4><p>
-              The <em>Jwt</em> class generates and validates JSON Web Tokens (JWTs).
-            </p><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">JWT examples</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-c#">using System.Security.Claims;
+              The <span class="code">Jwt</span> class generates and validates JSON Web Tokens (JWTs). This class relies on the JWT implementation provided by the 
+              <a href="https://www.nuget.org/packages/system.identitymodel.tokens.jwt" target="_blank" rel="noopener noreferrer">System.IdentityModel.Tokens.Jwt</a> NuGet package. 
+            </p><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">Generate and validate a JSON Web Token (JWT)</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-c#">using System.Security.Claims;
 using DotNetExtras.Security;
 ...
 string secret = "never-hard-code-passwords!";
-int    tokenExpirationSeconds = 3600; // 1 hour
 string email = "joe.doe@sample.com";
+
+int    tokenExpirationSeconds = 3600; // 1 hour
 
 Jwt jwt = new(secret, tokenExpirationSeconds);
 
@@ -43,16 +47,16 @@ string token = jwt.Generate(email);
 
 ClaimsPrincipal principal = jwt.Validate(token);
 
-Assert.NotNull(principal);
-Assert.Equal(email, principal.FindFirst(ClaimTypes.Email)?.Value);</code></pre></div></div><h4 id="Password" class="quickLinkHeader">Password</h4><p>
-              The <em>Password</em> class generates random passwords without ambiguous characters (such as <span class="code">1</span>, <span class="code">I</span>, <span class="code">l</span> or <span class="code">0</span>, <span class="code">O</span>). The password will contain at least one character from each of the following categories: lowercase letters, uppercase letters, digits, and special characters.
-            </p><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">Hash examples</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-c#">using DotNetExtras.Security;
+email = principal.FindFirst(ClaimTypes.Email)?.Value;</code></pre></div></div><h4 id="Password" class="quickLinkHeader">Password</h4><p>
+              The <span class="code">Password</span> class generates a random password without ambiguous characters (such as <span class="code">1</span>, <span class="code">I</span>, <span class="code">l</span> or <span class="code">0</span>, <span class="code">O</span>). The password will contain at least one character from each of the following categories: lowercase letters (<span class="code">abcdefgijkmnopqrstwxyz</span>), uppercase letters (<span class="code">ABCDEFGHJKLMNPQRSTWXYZ</span>), digits (<span class="code">23456789</span>), and special characters (<span class="code">*$-+?_&amp;=!%{}/[].,':;~()</span>). In each group of four characters, the password will contain at least one character from one of the four categories.
+            </p><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">Generate a random password</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-c#">using DotNetExtras.Security;
 ...
 // Generate a random password between 12 and 16 characters long.
 string randomPassword = Password.Generate(12, 16);</code></pre></div></div><h4 id="JsonExtensions" class="quickLinkHeader">JsonExtensions</h4><p>
-              The <em>JsonExtensions</em> class offers extension methods for JSON serialization with omitted or masked property values.
-            </p><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">JSON examples</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-c#">using DotNetExtras.Security.Json;
+              The <span class="code">JsonExtensions</span> class offers extension methods for JSON conversion using the <span class="code">System.Text.Json</span> that would null out or mask sensitive properties of the serialized object.
+            </p><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">Mask properties when serializing someone else's object</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-c#">using DotNetExtras.Security.Json;
 ...
+// Let's assume that this is someone else's class, so you cannot modify it.
 User user = new()
 {   
     UserName = "joe.doe",
@@ -79,29 +83,32 @@ json = user.ToJson("###", "Password", "PersonalData.Ssn");
 // with the asterisk characters,
 // but leaving the first and last 2 characters in plain text.
 json = user.ToJson('*', 2, 2, "Password", "PersonalData.Ssn");</code></pre></div></div><h4 id="MaskAttributes" class="quickLinkHeader">MaskAttribute</h4><p>
-              The <em>MaskAttribute</em> class can be applied to the class properties, so that the property values are automatically masked by the JSON serialization operation performed using <span class="code">System.Text.Json</span> (STJ).
-            </p><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">Property mask examples</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-c#">using DotNetExtras.Security.Json;
+              The <span class="code">MaskAttribute</span> class can be applied to the class properties, so that the property values are automatically masked by the JSON serialization operation performed using <span class="code">System.Text.Json</span> (STJ).
+            </p><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">Define masks for custom object properties for the STJ serialization</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-c#">using DotNetExtras.Security.Json;
 ...
-// Value will be replaced with null.
-[Mask()]
-public string? Secret1 { get; set; }
+public class Demo
+{
+  // Value will be replaced with null.
+  [Mask()]
+  public string? Secret1 { get; set; }
 
-// Value will be replaced with an empty string.
-[Mask("")]
-public string? Secret2 { get; set; }
+  // Value will be replaced with an empty string.
+  [Mask("")]
+  public string? Secret2 { get; set; }
 
-// Value will be replaced with the literal string "***masked***".
-[Mask("***masked***")]
-public string? Secret3 { get; set; }
+  // Value will be replaced with the literal string "***masked***".
+  [Mask("***masked***")]
+  public string? Secret3 { get; set; }
 
-// Value will be replaced with the hex-encoded SHA-256 hash.
-[Mask(HashType.SHA256)]
-public string? Secret4 { get; set; }
+  // All characters in the value will be replaced with asterisks
+  // except the first two and the last three which will remain in plain text.
+  [Mask('*', 2, 3)]
+  public string? Secret5 { get; set; }
 
-// Value will be replaced with the asterisks
-// and two first and last characters will be left in plain text.
-[Mask('*', 2, 2)]
-public string? Secret5 { get; set; }</code></pre></div></div></div><h2 id="More" class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>More</h2><div id="IDCABSection"><p>
+  // Value will be replaced with the hex-encoded SHA-256 hash.
+  [Mask(HashType.SHA256)]
+  public string? Secret4 { get; set; }
+}</code></pre></div></div></div><h2 id="More" class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>More</h2><div id="IDCABSection"><p>
             For more examples of available functionality, see the 
             <a href="https://github.com/alekdavis/dotnet-extras-security/tree/main/SecurityTests" target="_blank" rel="noopener noreferrer">unit test project</a>.
           </p></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>See Also</h2><div id="seeAlsoSection"><h4>Other Resources</h4><div><a href="https://www.nuget.org/packages/DotNetExtras.Security" target="_blank" rel="noopener noreferrer">DotNetExtras.Security NuGet package</a></div><div><a href="https://github.com/alekdavis/dotnet-extras-security" target="_blank" rel="noopener noreferrer">DotNetExtras.Security project repository</a></div></div></div><div id="InThisArticleColumn" class="column is-hidden-mobile"><nav class="menu sticky is-hidden"><p class="menu-label"><strong>In This Article</strong></p><ul id="InThisArticleMenu" class="menu-list"><li><a class="quickLink">Overview</a><ul class="menu"><li><a class="quickLink">Crypto</a></li><li><a class="quickLink">Hash</a></li><li><a class="quickLink">Jwt</a></li><li><a class="quickLink">Password</a></li><li><a class="quickLink">JsonExtensions</a></li><li><a class="quickLink">MaskAttribute</a></li></ul></li><li><a class="quickLink">More</a></li><li><a class="quickLink">See Also</a></li></ul></nav></div></div></div><footer id="PageFooter" class="footer border-top py-3 fixedFooter"><div class="columns"><div id="FooterContent" class="column"><p>Copyright © 2025 Alek Davis</p><div class="feedbackLink">Send comments on this topic to

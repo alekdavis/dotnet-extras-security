@@ -1,85 +1,87 @@
 # DotNetExtras.Security
 
-`DotNetExtras.Security` is a .NET Core library that implements most commonly used security operations.
+`DotNetExtras.Security` is a .NET Core library that implements frequently used security operations.
 
 Use the `DotNetExtras.Security` library to:
 
 - Generate random passwords.
-- Encrypt and decrypt data using the AES algorithm.
-- Hash data using secure hashing algorithms.
+- Encrypt and decrypt data using the AES/Rijndael algorithm with 256-bit key and random salt.
+- Hash data and validate data hashes using secure SHA hashing algorithms and random salt.
 - Generate and validate JSON web tokens (JWT).
-- Convert objects to JSON strings with sensitive properties masked.
-- Automatically mask sensitive object properties written to the logs.
+- Convert objects to JSON strings with sensitive properties masked (using the `System.Text.Json` serialization).
+- Automatically mask sensitive object properties written to the logs (using the `System.Text.Json` serialization).
 
-# Usage
+## Usage
 
 The following examples illustrates various operations implemented by the `DotNetExtras.Security` library.
 
-### DotNetExtras.Security namespace
+### DotNetExtras.Security.Password class
+
+Generate a random password between 12 and 16 characters long.
 
 ```cs
-using DotNetExtras.Security;
-...
-// Generate a random password between 12 and 16 characters long.
 string randomPassword = Password.Generate(12, 16);
 ```
 
+### DotNetExtras.Security.Crypto class
+
+Encrypt and decrypt data using the AES/Rijndael algorithm with 256-bit key and random salt.
+
 ```cs
-using DotNetExtras.Security;
-...
-string plainText = "Hello, World!";
+string plainText = "Hello, world!";
 string password = "never-hard-code-passwords!";
 
-// Encrypt the plain text using the password to generate the symmetric key.
+// Encrypt the plain text using the password to generate the symmetric key and a random salt value.
 string encrypted = Crypto.Encrypt(plainText, password)
 
 // Decrypt the cipher text using the same password to get the original plain text.
 string decrypted = Crypto.Decrypt(encryptedText, password);
 ```
 
-```cs
-using DotNetExtras.Security;
-...
-string plainText = "Hello, World!";
+### DotNetExtras.Security.Hash class
 
-HashType hashType = HashType.SHA256;
+Generate and validate hash values using the SHA-256 hashing algorithms and random salt.
+
+```cs
+string plainText = "Hello, world!";
 
 // Use either option to generate the hash value.
-// string hashText = Hash.Generate(hashType, plainText);
+// string hashText = Hash.Generate(HashType.SHA256, plainText);
 // or
-string hashText = plainText.ToHash(hashType)
+string hashText = plainText.ToHash(HashType.SHA256)
 
 // Given the hash value, validate the plain text.
-bool valid = Hash.Validate(hashType, hashText, "Hello, World!")
+bool valid = Hash.Validate(HashType.SHA256, hashText, "Hello, World!")
 ```
 
-```cs
-using System.Security.Claims;
-using DotNetExtras.Security;
-...
-using System.Net.Sockets;
+### DotNetExtras.Security.Jwt class
 
+Generate and validate JSON web tokens (JWT).
+
+```cs
 string secret = "never-hard-code-passwords!";
-int    tokenExpirationSeconds = 3600; // 1 hour
 string email = "joe.doe@sample.com";
+
+int    tokenExpirationSeconds = 3600; // 1 hour
 
 Jwt jwt = new(secret, tokenExpirationSeconds);
 
 string token = jwt.Generate(email);
 
-ClaimsPrincipal principal = jwt.Validate(token);
+System.Security.Claims.ClaimsPrincipal principal = jwt.Validate(token);
 
-Assert.NotNull(principal);
-Assert.Equal(email, principal.FindFirst(ClaimTypes.Email)?.Value);
+// Extract the email claim from the validated principal.
+string email2 = principal.FindFirst(ClaimTypes.Email)?.Value;
 ```
-### DotNetExtras.Security.Json namespace
+
+### DotNetExtras.Security.Json.JsonExtensions class
 
 Mask sensitive properties when serializing any objects to JSON via [System.Text.Json](https://learn.microsoft.com/en-us/dotnet/api/system.text.json).
+
 ```cs
-using DotNetExtras.Security.Json;
-...
 User user = new()
-{   UserName = "joe.doe",
+{   
+    UserName = "joe.doe",
     Password = "never-hard-code-passwords!",
     Email = "joe.doe@sample.com",
     PersonalData = new()
@@ -101,33 +103,36 @@ json = user.ToJson("###", "Password", "PersonalData.Ssn");
 // Serialize the user object to JSON, 
 // masking the Password and PersonalData.Ssn property values
 // with the asterisk characters,
-// but leaving the first and last 2 characters in plain text.
-json = user.ToJson('*', 2, 2, "Password", "PersonalData.Ssn");
+// but leaving the first 2 and last 1 characters in plain text.
+json = user.ToJson('*', 2, 1, "Password", "PersonalData.Ssn");
 ```
+
 Mask sensitive properties when serializing your objects to JSON via [System.Text.Json](https://learn.microsoft.com/en-us/dotnet/api/system.text.json).
+
 ```cs
-using DotNetExtras.Security.Json;
-...
-// Value will be replaced with null.
-[Mask(null)]
-public string? Secret1 { get; set; }
+public class Demo
+{
+    // Value will be replaced with null.
+    [Mask(null)]
+    public string? Secret1 { get; set; }
 
-// Value will be replaced with an empty string.
-[Mask("")]
-public string? Secret2 { get; set; }
+    // Value will be replaced with an empty string.
+    [Mask("")]
+    public string? Secret2 { get; set; }
 
-// Value will be replaced with the literal string "***masked***".
-[Mask("***masked***")]
-public string? Secret3 { get; set; }
+    // Value will be replaced with the literal string "***masked***".
+    [Mask("***masked***")]
+    public string? Secret3 { get; set; }
 
-// Value will be replaced with the asterisks
-// and two first and last characters will be left in plain text.
-[Mask('*', 2, 2)]
-public string? Secret4 { get; set; }
+    // Value will be replaced with the asterisks
+    // and two first and last characters will be left in plain text.
+    [Mask('*', 2, 2)]
+    public string? Secret4 { get; set; }
 
-// Value will be replaced with the hex-encoded SHA-256 hash.
-[Mask(HashType.SHA256)]
-public string? Secret5 { get; set; }
+    // Value will be replaced with the hex-encoded SHA-256 hash.
+    [Mask(HashType.SHA256)]
+    public string? Secret5 { get; set; }
+}
 ```
 
 ## Documentation
