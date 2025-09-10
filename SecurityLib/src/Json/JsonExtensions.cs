@@ -11,11 +11,15 @@ namespace DotNetExtras.Security.Json;
 public static class JsonExtensions
 {
     #region Public methods
-    /// <inheritdoc cref="ToJson(object?, bool, string?, string[])" path="param|returns"/>
+    /// <inheritdoc cref="ToJson(object?, string?, bool, bool, bool, string[])" path="param|returns"/>
     /// <summary>
     /// Serializes any object to a non-indented JSON string 
     /// masking the specified properties 
     /// with the <c>null</c> values.
+    /// The resulting JSON string will 
+    /// be non-indented, 
+    /// use the <c>camelCase</c> notation for property names, and
+    /// exclude <c>null</c> values.
     /// </summary>
     /// <example>
     /// <code>
@@ -36,14 +40,113 @@ public static class JsonExtensions
         params string[]? maskedProperties
     )
     {
-        return ToJson(source, false, null, maskedProperties);
+        return ToJson(source, null, false, false, false, maskedProperties);
     }
 
-    /// <inheritdoc cref="ToJson(object?, bool, string?, string[])" path="param|returns"/>
+    /// <inheritdoc cref="ToJson(object?, string?, bool, bool, bool, string[])" path="param|returns"/>
+    /// <summary>
+    /// Serializes any object to a non-indented JSON string 
+    /// masking the specified properties 
+    /// with the <c>null</c> values.
+    /// The resulting JSON string will 
+    /// use the <c>camelCase</c> notation for property names, and
+    /// exclude <c>null</c> values.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// User user = new User()
+    /// { 
+    ///     Name = "John", 
+    ///     Age = 30, 
+    ///     Password = "sensitiveValue" 
+    /// };
+    /// 
+    /// // The password property value will hold null; the JSON string will be indented.
+    /// Console.WriteLine(user.ToJson("Password", true));
+    /// </code>
+    /// </example>
+    public static string ToJson
+    (
+        this object? source,
+        bool indented,
+        params string[]? maskedProperties
+    )
+    {
+        return ToJson(source, null, indented, false, false, maskedProperties);
+    }
+
+    /// <inheritdoc cref="ToJson(object?, string?, bool, bool, bool, string[])" path="param|returns"/>
+    /// <summary>
+    /// Serializes any object to a non-indented JSON string 
+    /// masking the specified properties 
+    /// with the <c>null</c> values.
+    /// The resulting JSON string will 
+    /// exclude <c>null</c> values.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// User user = new User()
+    /// { 
+    ///     Name = "John", 
+    ///     Age = 30, 
+    ///     Password = "sensitiveValue" 
+    /// };
+    /// 
+    /// // The password property value will hold null; the JSON string will be indented.
+    /// Console.WriteLine(user.ToJson("Password", true, true));
+    /// </code>
+    /// </example>
+    public static string ToJson
+    (
+        this object? source,
+        bool indented,
+        bool useOriginalCase,
+        params string[]? maskedProperties
+    )
+    {
+        return ToJson(source, null, indented, useOriginalCase, false, maskedProperties);
+    }
+
+    /// <inheritdoc cref="ToJson(object?, string?, bool, bool, bool, string[])" path="param|returns"/>
+    /// <summary>
+    /// Serializes any object to a non-indented JSON string 
+    /// masking the specified properties 
+    /// with the <c>null</c> values.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// User user = new User()
+    /// { 
+    ///     Name = "John", 
+    ///     Age = 30, 
+    ///     Password = "sensitiveValue" 
+    /// };
+    /// 
+    /// // The password property value will hold null; the JSON string will be indented.
+    /// Console.WriteLine(user.ToJson("Password", true, true, true));
+    /// </code>
+    /// </example>
+    public static string ToJson
+    (
+        this object? source,
+        bool indented,
+        bool useOriginalCase,
+        bool includeNullValues,
+        params string[]? maskedProperties
+    )
+    {
+        return ToJson(source, null, indented, useOriginalCase, includeNullValues, maskedProperties);
+    }
+
+    /// <inheritdoc cref="ToJson(object?, string?, bool, bool, bool, string[])" path="param|returns"/>
     /// <summary>
     /// Serializes any object to a non-indented JSON string 
     /// masking the specified properties 
     /// with a literal string or the <c>null</c> values.
+    /// The resulting JSON string will 
+    /// be non-indented,
+    /// use the <c>camelCase</c> notation for property names, and
+    /// exclude <c>null</c> values.
     /// </summary>
     /// <example>
     /// <code>
@@ -65,7 +168,73 @@ public static class JsonExtensions
         params string[]? maskedProperties
     )
     {
-        return ToJson(source, false, mask, maskedProperties);
+        return ToJson(source, mask, false, false, false, maskedProperties);
+    }
+
+    /// <inheritdoc cref="ToJson(object?, string?, bool, bool, bool, string[])" path="param|returns"/>
+    /// <summary>
+    /// Serializes any object to a non-indented JSON string 
+    /// masking the specified properties 
+    /// with a literal string or the <c>null</c> values.
+    /// The resulting JSON string will 
+    /// use the <c>camelCase</c> notation for property names, and
+    /// exclude <c>null</c> values.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// User user = new User()
+    /// { 
+    ///     Name = "John", 
+    ///     Age = 30, 
+    ///     Password = "sensitiveValue" 
+    /// };
+    /// 
+    /// // The password property value will hold "***".
+    /// Console.WriteLine(user.ToJson("***", "Password"));
+    /// </code>
+    /// </example>
+    public static string ToJson
+    (
+        this object? source,
+        string? mask,
+        bool indented,
+        params string[]? maskedProperties
+    )
+    {
+        return ToJson(source, mask, indented, false, false, maskedProperties);
+    }
+
+    /// <inheritdoc cref="ToJson(object?, string?, bool, bool, bool, string[])" path="param|returns"/>
+    /// <summary>
+    /// Serializes any object to a non-indented JSON string 
+    /// masking the specified properties 
+    /// with a literal string or the <c>null</c> values.
+    /// The resulting JSON string will 
+    /// exclude <c>null</c> values.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// User user = new User()
+    /// { 
+    ///     Name = "John", 
+    ///     Age = 30, 
+    ///     Password = "sensitiveValue" 
+    /// };
+    /// 
+    /// // The password property value will hold "***".
+    /// Console.WriteLine(user.ToJson("***", "Password"));
+    /// </code>
+    /// </example>
+    public static string ToJson
+    (
+        this object? source,
+        string? mask,
+        bool indented,
+        bool useOriginalCase,
+        params string[]? maskedProperties
+    )
+    {
+        return ToJson(source, mask, indented, useOriginalCase, false, maskedProperties);
     }
 
     /// <summary>
@@ -78,6 +247,15 @@ public static class JsonExtensions
     /// </param>
     /// <param name="indented">
     /// If <c>true</c>, serialized JSON elements will be indented.
+    /// </param>
+    /// <param name="useOriginalCase">
+    /// If <c>true</c>, the original property names will be used
+    /// (unless they are overwritten by the JSON serialization attributes);
+    /// otherwise, the <c>camelCase</c> notation will be used.
+    /// </param>
+    /// <param name="includeNullValues">
+    /// If <c>true</c>, properties with null values will be included;
+    /// otherwise, they will be ignored.
     /// </param>
     /// <param name="mask">
     /// String value used for masking the values of the specified properties 
@@ -99,14 +277,16 @@ public static class JsonExtensions
     /// };
     /// 
     /// // The password property value will hold "***".
-    /// Console.WriteLine(user.ToJson(true, "***", "Password"));
+    /// Console.WriteLine(user.ToJson(true, true, true, "***", "Password"));
     /// </code>
     /// </example>
     public static string ToJson
     (
         this object? source,
-        bool indented,
         string? mask,
+        bool indented,
+        bool useOriginalCase,
+        bool includeNullValues,
         params string[]? maskedProperties
     )
     {
@@ -126,15 +306,152 @@ public static class JsonExtensions
             sanitized = source;
         }
 
-        return sanitized.ToJson(indented);
+        return Common.Json.JsonExtensions.ToJson(sanitized, indented, useOriginalCase, includeNullValues);
     }
 
-    /// <inheritdoc cref="ToJson(object?, bool, char, int, int, string[])" path="param|returns"/>
+    /// <inheritdoc cref="ToJson(object?, char, bool, bool, bool, int, int, string[])" path="param|returns"/>
+    /// <summary>
+    /// Serializes any object to a non-indented JSON string 
+    /// masking the specified properties 
+    /// using a mask character.
+    /// The resulting JSON string will 
+    /// be non-indented,
+    /// use the <c>camelCase</c> notation for property names, and
+    /// exclude <c>null</c> values.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// User user = new User()
+    /// { 
+    ///     Name = "John", 
+    ///     Age = 30, 
+    ///     Password = "sensitiveValue" 
+    /// };
+    /// 
+    /// // The JSON password property value will hold "se************".
+    /// Console.WriteLine(user.ToJson('*', 2, "Password"));
+    /// </code>
+    /// </example>
+    public static string ToJson
+    (
+        this object? source,
+        char mask,
+        params string[]? maskedProperties
+    )
+    {
+        return ToJson(source, mask, false, false, false, 0, 0, maskedProperties);
+    }
+
+    /// <inheritdoc cref="ToJson(object?, char, bool, bool, bool, int, int, string[])" path="param|returns"/>
+    /// <summary>
+    /// Serializes any object to a non-indented JSON string 
+    /// masking the specified properties 
+    /// using a mask character.
+    /// The resulting JSON string will 
+    /// use the <c>camelCase</c> notation for property names, and
+    /// exclude <c>null</c> values.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// User user = new User()
+    /// { 
+    ///     Name = "John", 
+    ///     Age = 30, 
+    ///     Password = "sensitiveValue" 
+    /// };
+    /// 
+    /// // The JSON password property value will hold "se************".
+    /// Console.WriteLine(user.ToJson('*', 2, "Password"));
+    /// </code>
+    /// </example>
+    public static string ToJson
+    (
+        this object? source,
+        char mask,
+        bool indented,
+        params string[]? maskedProperties
+    )
+    {
+        return ToJson(source, mask, indented, false, false, 0, 0, maskedProperties);
+    }
+
+    /// <inheritdoc cref="ToJson(object?, char, bool, bool, bool, int, int, string[])" path="param|returns"/>
+    /// <summary>
+    /// Serializes any object to a non-indented JSON string 
+    /// masking the specified properties 
+    /// using a mask character.
+    /// The resulting JSON string will 
+    /// exclude <c>null</c> values.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// User user = new User()
+    /// { 
+    ///     Name = "John", 
+    ///     Age = 30, 
+    ///     Password = "sensitiveValue" 
+    /// };
+    /// 
+    /// // The JSON password property value will hold "se************".
+    /// Console.WriteLine(user.ToJson('*', 2, "Password"));
+    /// </code>
+    /// </example>
+    public static string ToJson
+    (
+        this object? source,
+        char mask,
+        bool indented,
+        bool useOriginalCase,
+        params string[]? maskedProperties
+    )
+    {
+        return ToJson(source, mask, indented, useOriginalCase, false, 0, 0, maskedProperties);
+    }
+
+    /// <inheritdoc cref="ToJson(object?, char, bool, bool, bool, int, int, string[])" path="param|returns"/>
+    /// <summary>
+    /// Serializes any object to a non-indented JSON string 
+    /// masking the specified properties 
+    /// using a mask character.
+    /// The resulting JSON string will 
+    /// exclude <c>null</c> values.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// User user = new User()
+    /// { 
+    ///     Name = "John", 
+    ///     Age = 30, 
+    ///     Password = "sensitiveValue" 
+    /// };
+    /// 
+    /// // The JSON password property value will hold "se************".
+    /// Console.WriteLine(user.ToJson('*', 2, "Password"));
+    /// </code>
+    /// </example>
+    public static string ToJson
+    (
+        this object? source,
+        char mask,
+        bool indented,
+        bool useOriginalCase,
+        bool includeNullValues,
+        params string[]? maskedProperties
+    )
+    {
+        return ToJson(source, mask, indented, useOriginalCase, includeNullValues, 0, 0, maskedProperties);
+    }
+
+    /// <inheritdoc cref="ToJson(object?, char, bool, bool, bool, int, int, string[])" path="param|returns"/>
     /// <summary>
     /// Serializes any object to a non-indented JSON string 
     /// masking the specified properties 
     /// using a mask character and keeping the specified number of characters
     /// in the beginning of the string in plain text.
+    /// The resulting JSON string will 
+    /// be non-indented,
+    /// use the <c>camelCase</c> notation for property names, and
+    /// exclude <c>null</c> values.
     /// </summary>
     /// <example>
     /// <code>
@@ -157,10 +474,80 @@ public static class JsonExtensions
         params string[]? maskedProperties
     )
     {
-        return ToJson(source, false, mask, unmaskedCharsStart, 0, maskedProperties);
+        return ToJson(source, mask, false, false, false, unmaskedCharsStart, 0, maskedProperties);
     }
 
-    /// <inheritdoc cref="ToJson(object?, bool, char, int, int, string[])" path="param|returns"/>
+    /// <inheritdoc cref="ToJson(object?, char, bool, bool, bool, int, int, string[])" path="param|returns"/>
+    /// <summary>
+    /// Serializes any object to a JSON string 
+    /// masking the specified properties 
+    /// using a mask character and keeping the specified number of characters
+    /// in the beginning of the string in plain text.
+    /// The resulting JSON string will 
+    /// use the <c>camelCase</c> notation for property names, and
+    /// exclude <c>null</c> values.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// User user = new User()
+    /// { 
+    ///     Name = "John", 
+    ///     Age = 30, 
+    ///     Password = "sensitiveValue" 
+    /// };
+    /// 
+    /// // The JSON password property value will hold "se************".
+    /// Console.WriteLine(user.ToJson(false, '*', 2, "Password"));
+    /// </code>
+    /// </example>
+    public static string ToJson
+    (
+        this object? source,
+        char mask,
+        bool indented,
+        int unmaskedCharsStart,
+        params string[]? maskedProperties
+    )
+    {
+        return ToJson(source, mask, indented, false, false, unmaskedCharsStart, 0, maskedProperties);
+    }
+
+    /// <inheritdoc cref="ToJson(object?, char, bool, bool, bool, int, int, string[])" path="param|returns"/>
+    /// <summary>
+    /// Serializes any object to a JSON string 
+    /// masking the specified properties 
+    /// using a mask character and keeping the specified number of characters
+    /// in the beginning of the string in plain text.
+    /// The resulting JSON string will 
+    /// exclude <c>null</c> values.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// User user = new User()
+    /// { 
+    ///     Name = "John", 
+    ///     Age = 30, 
+    ///     Password = "sensitiveValue" 
+    /// };
+    /// 
+    /// // The JSON password property value will hold "se************".
+    /// Console.WriteLine(user.ToJson(false, '*', 2, "Password"));
+    /// </code>
+    /// </example>
+    public static string ToJson
+    (
+        this object? source,
+        char mask,
+        bool indented,
+        bool useOriginalCase,
+        int unmaskedCharsStart,
+        params string[]? maskedProperties
+    )
+    {
+        return ToJson(source, mask, indented, useOriginalCase, false, unmaskedCharsStart, 0, maskedProperties);
+    }
+
+    /// <inheritdoc cref="ToJson(object?, char, bool, bool, bool, int, int, string[])" path="param|returns"/>
     /// <summary>
     /// Serializes any object to a JSON string 
     /// masking the specified properties 
@@ -183,21 +570,27 @@ public static class JsonExtensions
     public static string ToJson
     (
         this object? source,
-        bool indented,
         char mask,
+        bool indented,
+        bool useOriginalCase,
+        bool includeNullValues,
         int unmaskedCharsStart,
         params string[]? maskedProperties
     )
     {
-        return ToJson(source, indented, mask, unmaskedCharsStart, 0, maskedProperties);
+        return ToJson(source, mask, indented, useOriginalCase, includeNullValues, unmaskedCharsStart, 0, maskedProperties);
     }
 
-    /// <inheritdoc cref="ToJson(object?, bool, char, int, int, string[])" path="param|returns"/>
+    /// <inheritdoc cref="ToJson(object?, char, bool, bool, bool, int, int, string[])" path="param|returns"/>
     /// <summary>
     /// Serializes any object to a non-indented JSON string 
     /// masking the specified properties 
     /// using a mask character and keeping the specified number of characters
     /// in the beginning and/or at the end of the string in plain text.
+    /// The resulting JSON string will 
+    /// be non-indented,
+    /// use the <c>camelCase</c> notation for property names, and
+    /// exclude <c>null</c> values.
     /// </summary>
     /// <example>
     /// <code>
@@ -221,7 +614,79 @@ public static class JsonExtensions
         params string[]? maskedProperties
     )
     {
-        return ToJson(source, false, mask, unmaskedCharsStart, unmaskedCharsEnd, maskedProperties);
+        return ToJson(source, mask, false, false, false, unmaskedCharsStart, unmaskedCharsEnd, maskedProperties);
+    }
+
+    /// <inheritdoc cref="ToJson(object?, char, bool, bool, bool, int, int, string[])" path="param|returns"/>
+    /// <summary>
+    /// Serializes any object to a non-indented JSON string 
+    /// masking the specified properties 
+    /// using a mask character and keeping the specified number of characters
+    /// in the beginning and/or at the end of the string in plain text.
+    /// The resulting JSON string will 
+    /// use the <c>camelCase</c> notation for property names, and
+    /// exclude <c>null</c> values.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// User user = new User()
+    /// { 
+    ///     Name = "John", 
+    ///     Age = 30, 
+    ///     Password = "sensitiveValue" 
+    /// };
+    /// 
+    /// // The JSON password property value will hold "sen*********ue".
+    /// Console.WriteLine(user.ToJson('*', 3, 2, "Password"));
+    /// </code>
+    /// </example>
+    public static string ToJson
+    (
+        this object? source,
+        char mask,
+        bool indented,
+        int unmaskedCharsStart,
+        int unmaskedCharsEnd,
+        params string[]? maskedProperties
+    )
+    {
+        return ToJson(source, mask, indented, false, false, unmaskedCharsStart, unmaskedCharsEnd, maskedProperties);
+    }
+
+    /// <inheritdoc cref="ToJson(object?, char, bool, bool, bool, int, int, string[])" path="param|returns"/>
+    /// <summary>
+    /// Serializes any object to a non-indented JSON string 
+    /// masking the specified properties 
+    /// using a mask character and keeping the specified number of characters
+    /// in the beginning and/or at the end of the string in plain text.
+    /// The resulting JSON string will 
+    /// exclude <c>null</c> values.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// User user = new User()
+    /// { 
+    ///     Name = "John", 
+    ///     Age = 30, 
+    ///     Password = "sensitiveValue" 
+    /// };
+    /// 
+    /// // The JSON password property value will hold "sen*********ue".
+    /// Console.WriteLine(user.ToJson('*', 3, 2, "Password"));
+    /// </code>
+    /// </example>
+    public static string ToJson
+    (
+        this object? source,
+        char mask,
+        bool indented,
+        bool useOriginalCase,
+        int unmaskedCharsStart,
+        int unmaskedCharsEnd,
+        params string[]? maskedProperties
+    )
+    {
+        return ToJson(source, mask, indented, useOriginalCase, false, unmaskedCharsStart, unmaskedCharsEnd, maskedProperties);
     }
 
     /// <summary>
@@ -233,11 +698,20 @@ public static class JsonExtensions
     /// <param name="source">
     /// Source object.
     /// </param>
+    /// <param name="mask">
+    /// Character used for masking the values of the specified properties.
+    /// </param>
     /// <param name="indented">
     /// If <c>true</c>, serialized JSON elements will be indented.
     /// </param>
-    /// <param name="mask">
-    /// Character used for masking the values of the specified properties.
+    /// <param name="useOriginalCase">
+    /// If <c>true</c>, the original property names will be used
+    /// (unless they are overwritten by the JSON serialization attributes);
+    /// otherwise, the <c>camelCase</c> notation will be used.
+    /// </param>
+    /// <param name="includeNullValues">
+    /// If <c>true</c>, properties with null values will be included;
+    /// otherwise, they will be ignored.
     /// </param>
     /// <param name="unmaskedCharsStart">
     /// Number characters to be left unmasked at the start of the string.
@@ -267,8 +741,10 @@ public static class JsonExtensions
     public static string ToJson
     (
         this object? source,
-        bool indented,
         char mask,
+        bool indented,
+        bool useOriginalCase,
+        bool includeNullValues,
         int unmaskedCharsStart,
         int unmaskedCharsEnd,
         params string[]? maskedProperties
@@ -297,7 +773,7 @@ public static class JsonExtensions
             sanitized = source;
         }
 
-        return sanitized.ToJson(indented);
+        return Common.Json.JsonExtensions.ToJson(sanitized, indented, useOriginalCase, includeNullValues);
     }
     #endregion
 

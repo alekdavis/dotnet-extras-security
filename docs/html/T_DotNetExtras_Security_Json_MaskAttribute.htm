@@ -2,7 +2,7 @@
             Masks a sensitive string property value during an object-to-JSON-string conversion via
             the <a href="https://learn.microsoft.com/en-us/dotnet/api/system.text.json" target="_blank" rel="noopener noreferrer">System.Text.Json</a> (STJ)
             serialization.
-            </div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Definition</h2><div id="IDBSection"><strong>Namespace:</strong> <a href="N_DotNetExtras_Security_Json.htm">DotNetExtras.Security.Json</a><br /><strong>Assembly:</strong> DotNetExtras.Security (in DotNetExtras.Security.dll) Version: 1.0.6<div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><span class="buttons"><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></span></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs">[<span class="identifier">AttributeUsageAttribute</span>(<span class="identifier">AttributeTargets</span>.Property)]
+            </div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Definition</h2><div id="IDBSection"><strong>Namespace:</strong> <a href="N_DotNetExtras_Security_Json.htm">DotNetExtras.Security.Json</a><br /><strong>Assembly:</strong> DotNetExtras.Security (in DotNetExtras.Security.dll) Version: 1.0.7<div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><span class="buttons"><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></span></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs">[<span class="identifier">AttributeUsageAttribute</span>(<span class="identifier">AttributeTargets</span>.Property)]
 <span class="keyword">public</span> <span class="keyword">class</span> <span class="identifier">MaskAttribute</span> : <span class="identifier">JsonConverterAttribute</span></code></pre></div></div><dl class="inheritanceHierarchy"><dt>Inheritance</dt><dd><a href="https://learn.microsoft.com/dotnet/api/system.object" target="_blank" rel="noopener noreferrer">Object</a>  <span class="icon is-small"><i class="fa fa-arrow-right"></i></span>  <a href="https://learn.microsoft.com/dotnet/api/system.attribute" target="_blank" rel="noopener noreferrer">Attribute</a>  <span class="icon is-small"><i class="fa fa-arrow-right"></i></span>  <a href="https://learn.microsoft.com/dotnet/api/system.text.json.serialization.jsonattribute" target="_blank" rel="noopener noreferrer">JsonAttribute</a>  <span class="icon is-small"><i class="fa fa-arrow-right"></i></span>  <a href="https://learn.microsoft.com/dotnet/api/system.text.json.serialization.jsonconverterattribute" target="_blank" rel="noopener noreferrer">JsonConverterAttribute</a>  <span class="icon is-small"><i class="fa fa-arrow-right"></i></span>  <span class="selflink">MaskAttribute</span></dd></dl></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Remarks</h2><div id="IDBCSection"><p>
             Depending on the constructor used, one of these mask option can be applied
             to convert a string property value to:
@@ -43,7 +43,7 @@ public string? Secret2 { get; set; }
 // Adds a random 4-character salt to the original string and hashes the result with SHA-256
 // (includes the salt value as a prfix of the hash string).
 [Mask(HashType.256, 4, true)]
-public string? Secret3 { get; set; }</code></pre></div></div></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Constructors</h2><div id="IDAHEASection"><table id="ConstructorList" class="table is-hoverable"><tr><td><a href="M_DotNetExtras_Security_Json_MaskAttribute__ctor_2.htm">MaskAttribute(String)</a></td><td>
+public string? Secret3 { get; set; }</code></pre></div></div></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Constructors</h2><div id="IDAUEASection"><table id="ConstructorList" class="table is-hoverable"><tr><td><a href="M_DotNetExtras_Security_Json_MaskAttribute__ctor_2.htm">MaskAttribute(String)</a></td><td>
             Initializes a new instance of the <span class="selflink">MaskAttribute</span> class
             for applying a literal string mask to a string property value during JSON serialization
             via <a href="https://learn.microsoft.com/en-us/dotnet/api/system.text.json" target="_blank" rel="noopener noreferrer">System.Text.Json</a> (STJ).
@@ -55,37 +55,140 @@ public string? Secret3 { get; set; }</code></pre></div></div></div><h2 class="qu
             Initializes a new instance of the <span class="selflink">MaskAttribute</span> class
             for applying an SHA hash mask to a string property value during JSON serialization
             via <a href="https://learn.microsoft.com/en-us/dotnet/api/system.text.json" target="_blank" rel="noopener noreferrer">System.Text.Json</a> (STJ).
-            </td></tr></table></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Methods</h2><div id="IDIEASection"><table id="MethodList" class="table is-hoverable"><tr><td><a href="M_DotNetExtras_Security_Json_MaskAttribute_CreateConverter.htm">CreateConverter</a></td><td>
+            </td></tr></table></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Methods</h2><div id="IDVEASection"><table id="MethodList" class="table is-hoverable"><tr><td><a href="M_DotNetExtras_Security_Json_MaskAttribute_CreateConverter.htm">CreateConverter</a></td><td>
             Sets an appropriate converter that will apply a mask to a decorated string property
             based on the settings specified in the constructor.
-            <br />(Overrides <a href="https://learn.microsoft.com/dotnet/api/system.text.json.serialization.jsonconverterattribute.createconverter" target="_blank" rel="noopener noreferrer">JsonConverterAttribute<span id="LSTFB04B4BF_0" data-languageSpecificText="cs=.|vb=.|cpp=::|nu=.|fs=."></span>CreateConverter(Type)</a>)</td></tr></table></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Extension Methods</h2><div id="IDAEASection"><table id="ExtensionList" class="table is-hoverable"><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_6.htm">ToJson</a></td><td>
+            <br />(Overrides <a href="https://learn.microsoft.com/dotnet/api/system.text.json.serialization.jsonconverterattribute.createconverter" target="_blank" rel="noopener noreferrer">JsonConverterAttribute<span id="LSTFB04B4BF_0" data-languageSpecificText="cs=.|vb=.|cpp=::|nu=.|fs=."></span>CreateConverter(Type)</a>)</td></tr></table></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Extension Methods</h2><div id="IDAEASection"><table id="ExtensionList" class="table is-hoverable"><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_19.htm">ToJson</a></td><td>
             Serializes any object to a non-indented JSON string 
             masking the specified properties 
             with the <span class="code">null</span> values.
-            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_5.htm">ToJson</a></td><td>
+            The resulting JSON string will 
+            be non-indented, 
+            use the <span class="code">camelCase</span> notation for property names, and
+            exclude <span class="code">null</span> values.
+            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_2.htm">ToJson</a></td><td>
+            Serializes any object to a non-indented JSON string 
+            masking the specified properties 
+            with the <span class="code">null</span> values.
+            The resulting JSON string will 
+            use the <span class="code">camelCase</span> notation for property names, and
+            exclude <span class="code">null</span> values.
+            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_14.htm">ToJson</a></td><td>
+            Serializes any object to a non-indented JSON string 
+            masking the specified properties 
+            using a mask character.
+            The resulting JSON string will 
+            be non-indented,
+            use the <span class="code">camelCase</span> notation for property names, and
+            exclude <span class="code">null</span> values.
+            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_18.htm">ToJson</a></td><td>
             Serializes any object to a non-indented JSON string 
             masking the specified properties 
             with a literal string or the <span class="code">null</span> values.
-            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_2.htm">ToJson</a></td><td>
-            Serializes any object to a JSON string 
-            masking the specified properties with 
-            a literal string <span class="code">null</span> values.
-            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_4.htm">ToJson</a></td><td>
+            The resulting JSON string will 
+            be non-indented,
+            use the <span class="code">camelCase</span> notation for property names, and
+            exclude <span class="code">null</span> values.
+            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_1.htm">ToJson</a></td><td>
+            Serializes any object to a non-indented JSON string 
+            masking the specified properties 
+            with the <span class="code">null</span> values.
+            The resulting JSON string will 
+            exclude <span class="code">null</span> values.
+            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_11.htm">ToJson</a></td><td>
+            Serializes any object to a non-indented JSON string 
+            masking the specified properties 
+            using a mask character.
+            The resulting JSON string will 
+            use the <span class="code">camelCase</span> notation for property names, and
+            exclude <span class="code">null</span> values.
+            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_13.htm">ToJson</a></td><td>
             Serializes any object to a non-indented JSON string 
             masking the specified properties 
             using a mask character and keeping the specified number of characters
             in the beginning of the string in plain text.
-            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_1.htm">ToJson</a></td><td>
+            The resulting JSON string will 
+            be non-indented,
+            use the <span class="code">camelCase</span> notation for property names, and
+            exclude <span class="code">null</span> values.
+            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_17.htm">ToJson</a></td><td>
+            Serializes any object to a non-indented JSON string 
+            masking the specified properties 
+            with a literal string or the <span class="code">null</span> values.
+            The resulting JSON string will 
+            use the <span class="code">camelCase</span> notation for property names, and
+            exclude <span class="code">null</span> values.
+            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson.htm">ToJson</a></td><td>
+            Serializes any object to a non-indented JSON string 
+            masking the specified properties 
+            with the <span class="code">null</span> values.
+            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_8.htm">ToJson</a></td><td>
+            Serializes any object to a non-indented JSON string 
+            masking the specified properties 
+            using a mask character.
+            The resulting JSON string will 
+            exclude <span class="code">null</span> values.
+            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_10.htm">ToJson</a></td><td>
             Serializes any object to a JSON string 
             masking the specified properties 
             using a mask character and keeping the specified number of characters
             in the beginning of the string in plain text.
-            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_3.htm">ToJson</a></td><td>
+            The resulting JSON string will 
+            use the <span class="code">camelCase</span> notation for property names, and
+            exclude <span class="code">null</span> values.
+            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_12.htm">ToJson</a></td><td>
             Serializes any object to a non-indented JSON string 
             masking the specified properties 
             using a mask character and keeping the specified number of characters
             in the beginning and/or at the end of the string in plain text.
-            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson.htm">ToJson</a></td><td>
+            The resulting JSON string will 
+            be non-indented,
+            use the <span class="code">camelCase</span> notation for property names, and
+            exclude <span class="code">null</span> values.
+            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_16.htm">ToJson</a></td><td>
+            Serializes any object to a non-indented JSON string 
+            masking the specified properties 
+            with a literal string or the <span class="code">null</span> values.
+            The resulting JSON string will 
+            exclude <span class="code">null</span> values.
+            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_5.htm">ToJson</a></td><td>
+            Serializes any object to a non-indented JSON string 
+            masking the specified properties 
+            using a mask character.
+            The resulting JSON string will 
+            exclude <span class="code">null</span> values.
+            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_7.htm">ToJson</a></td><td>
+            Serializes any object to a JSON string 
+            masking the specified properties 
+            using a mask character and keeping the specified number of characters
+            in the beginning of the string in plain text.
+            The resulting JSON string will 
+            exclude <span class="code">null</span> values.
+            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_9.htm">ToJson</a></td><td>
+            Serializes any object to a non-indented JSON string 
+            masking the specified properties 
+            using a mask character and keeping the specified number of characters
+            in the beginning and/or at the end of the string in plain text.
+            The resulting JSON string will 
+            use the <span class="code">camelCase</span> notation for property names, and
+            exclude <span class="code">null</span> values.
+            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_15.htm">ToJson</a></td><td>
+            Serializes any object to a JSON string 
+            masking the specified properties with 
+            a literal string <span class="code">null</span> values.
+            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_4.htm">ToJson</a></td><td>
+            Serializes any object to a JSON string 
+            masking the specified properties 
+            using a mask character and keeping the specified number of characters
+            in the beginning of the string in plain text.
+            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_6.htm">ToJson</a></td><td>
+            Serializes any object to a non-indented JSON string 
+            masking the specified properties 
+            using a mask character and keeping the specified number of characters
+            in the beginning and/or at the end of the string in plain text.
+            The resulting JSON string will 
+            exclude <span class="code">null</span> values.
+            <br />(Defined by <a href="T_DotNetExtras_Security_Json_JsonExtensions.htm">JsonExtensions</a>)</td></tr><tr><td><a href="M_DotNetExtras_Security_Json_JsonExtensions_ToJson_3.htm">ToJson</a></td><td>
             Serializes any object to a JSON string 
             masking the specified properties 
             using a mask character and keeping the specified number of characters

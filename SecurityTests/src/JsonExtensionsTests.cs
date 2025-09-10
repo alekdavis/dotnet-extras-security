@@ -56,7 +56,7 @@ public class JsonExtensionsTests
             Password = sensitiveValue
         };
 
-        json = original.ToJson(false, mask, maskedProperties);
+        json = original.ToJson(mask, maskedProperties);
 
         secure = json.FromJson<User>();
 
@@ -117,8 +117,8 @@ public class JsonExtensionsTests
         };
 
         json = unmaskedCharsEnd == 0
-            ? original.ToJson(false, mask, unmaskedCharsStart, maskedProperties)
-            : original.ToJson(false, mask, unmaskedCharsStart, unmaskedCharsEnd, maskedProperties);
+            ? original.ToJson(mask, unmaskedCharsStart, maskedProperties)
+            : original.ToJson(mask, unmaskedCharsStart, unmaskedCharsEnd, maskedProperties);
 
         secure = json.FromJson<User>();
 

@@ -25,7 +25,7 @@ string randomPassword = Password.Generate(12, 16);
 
 ### DotNetExtras.Security.Crypto class
 
-Encrypt and decrypt data using the AES/Rijndael algorithm with 256-bit key and random salt.
+Encrypt and decrypt data using the AES/Rijndael algorithm with 256-bit key and random salt:
 
 ```cs
 string plainText = "Hello, world!";
@@ -40,7 +40,7 @@ string decrypted = Crypto.Decrypt(encryptedText, password);
 
 ### DotNetExtras.Security.Hash class
 
-Generate and validate hash values using the SHA-256 hashing algorithms and random salt.
+Generate and validate hash values using the SHA-256 hashing algorithms and random salt:
 
 ```cs
 string plainText = "Hello, world!";
@@ -56,7 +56,7 @@ bool valid = Hash.Validate(HashType.SHA256, hashText, "Hello, World!")
 
 ### DotNetExtras.Security.Jwt class
 
-Generate and validate JSON web tokens (JWT).
+Generate and validate JSON web tokens (JWT):
 
 ```cs
 string secret = "never-hard-code-passwords!";
@@ -76,7 +76,7 @@ string email2 = principal.FindFirst(ClaimTypes.Email)?.Value;
 
 ### DotNetExtras.Security.Json.JsonExtensions class
 
-Mask sensitive properties when serializing any objects to JSON via [System.Text.Json](https://learn.microsoft.com/en-us/dotnet/api/system.text.json).
+Mask sensitive properties when serializing any objects to JSON via [System.Text.Json](https://learn.microsoft.com/en-us/dotnet/api/system.text.json):
 
 ```cs
 User user = new()
@@ -107,7 +107,7 @@ json = user.ToJson("###", "Password", "PersonalData.Ssn");
 json = user.ToJson('*', 2, 1, "Password", "PersonalData.Ssn");
 ```
 
-Mask sensitive properties when serializing your objects to JSON via [System.Text.Json](https://learn.microsoft.com/en-us/dotnet/api/system.text.json).
+Mask sensitive properties when serializing your objects to JSON via [System.Text.Json](https://learn.microsoft.com/en-us/dotnet/api/system.text.json):
 
 ```cs
 public class Demo
