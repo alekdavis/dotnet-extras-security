@@ -23,8 +23,7 @@ namespace DotNetExtras.Security;
 public static class Password
 {
     // Define default min and max password lengths.
-    private static readonly int _DEFAULT_MIN_PASSWORD_LENGTH  = 8;
-    private static readonly int _DEFAULT_MAX_PASSWORD_LENGTH  = 12;
+    private static readonly int _DEFAULT_MIN_PASSWORD_LENGTH  = 12;
 
     // Define supported password characters divided into groups.
     // You can add (or remove) characters to (from) these groups.
@@ -34,46 +33,13 @@ public static class Password
     private static readonly string _PASSWORD_CHARS_SPECIAL = "*$-+?_&=!%{}/[].,':;~()";
 
     /// <summary>
-    /// Generates a random password.
-    /// </summary>
-    /// <returns>
-    /// Randomly generated password.
-    /// </returns>
-    /// <remarks>
-    /// The length of the generated password will be determined at
-    /// random. It will be no shorter than the minimum default and
-    /// no longer than maximum default.
-    /// </remarks>
-    public static string Generate()
-    {
-        return Generate(_DEFAULT_MIN_PASSWORD_LENGTH, _DEFAULT_MAX_PASSWORD_LENGTH);
-    }
-
-    /// <summary>
-    /// Generates a random password of the exact length.
-    /// </summary>
-    /// <param name="length">
-    /// Exact password length.
-    /// </param>
-    /// <returns>
-    /// Randomly generated password.
-    /// </returns>
-    public static string Generate
-    (
-        int length
-    )
-    {
-        return Generate(length, length);
-    }
-
-    /// <summary>
     /// Generates a random password between the min and max length.
     /// </summary>
     /// <param name="minLength">
-    /// Minimum password length.
+    /// Minimum password length (if less or equal than 0, it will be set to 12).
     /// </param>
     /// <param name="maxLength">
-    /// Maximum password length.
+    /// Maximum password length (if less or equal than 0, it will be set the minimum length).
     /// </param>
     /// <returns>
     /// Randomly generated password.
@@ -85,14 +51,24 @@ public static class Password
     /// </remarks>
     public static string Generate
     (
-        int minLength,
-        int maxLength
+        int minLength = 0,
+        int maxLength = 0
     )
     {
-        // Make sure that input parameters are valid.
-        if (minLength <= 0 || maxLength <= 0 || minLength > maxLength)
+        if (minLength <= 0)
         {
-            throw new ArgumentException("Min and max length values must be greater than zero, and max must be greater than min.");
+            minLength = _DEFAULT_MIN_PASSWORD_LENGTH;
+        }
+
+        if (maxLength <= 0)
+        {
+            maxLength = minLength;
+        }
+
+        // Make sure that input parameters are valid.
+        if (minLength > maxLength)
+        {
+            (minLength, maxLength) = (maxLength, minLength);
         }
 
         // Create a local array containing supported password characters
