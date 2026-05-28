@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <AssemblyName>DotNetExtras.Security</AssemblyName>
     <RootNamespace>DotNetExtras.Security</RootNamespace>
-    <Version>1.0.10</Version>
+    <Version>1.0.11</Version>
     <Title>$(AssemblyName)</Title>
     <Authors>Alek Davis</Authors>
     <Description>A .NET Core library implementing security functions, such as random password generation, encryption, hashing, etc.</Description>
@@ -32,9 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetExtras.Common" Version="1.0.21" />
-    <PackageReference Include="DotNetExtras.Extended" Version="1.0.7" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.17.0" />
+    <PackageReference Include="DotNetExtras.Common" Version="1.0.22" />
+    <PackageReference Include="DotNetExtras.Extended" Version="1.0.8" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.18.0" />
   </ItemGroup>
 
 </Project>
